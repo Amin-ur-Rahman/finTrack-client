@@ -1,4 +1,4 @@
-export default function Logo({ width = 400, height = 120, className = "" }) {
+export default function Logo({ width = 240, height = 80, className = "" }) {
   return (
     <svg
       width={width}

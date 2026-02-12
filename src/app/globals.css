@@ -8,7 +8,7 @@
   --color-card-foreground: #0f172a;
 
   /* Brand Actions */
-  --color-primary: #3b82f6; /* Electric Blue for UI Actions */
+  --color-primary: #10b981; /* Electric Blue for UI Actions */
   --color-primary-foreground: #ffffff;
 
   /* Financial States (Critical for FinTrack) */
@@ -27,7 +27,7 @@
   --color-card: #1e293b; /* Lighter Navy for Cards */
   --color-card-foreground: #f1f5f9;
 
-  --color-primary: #60a5fa;
+  --color-primary: #1cc68d;
   --color-primary-foreground: #0f172a;
 
   --color-muted: #334155;
