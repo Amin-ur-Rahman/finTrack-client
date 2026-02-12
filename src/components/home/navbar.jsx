@@ -5,10 +5,12 @@ import { FcMenu, FcPhotoReel } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUser } from "@/hooks/useUser";
+import { useLogout } from "@/hooks/useLogout";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, isLoading } = useUser();
+  const { mutate: logout } = useLogout();
 
   console.log(user);
 
@@ -34,9 +36,11 @@ const Navbar = () => {
 
         {/* action button */}
         <div className="ml-auto flex items-center gap-4">
-          <button className="hidden md:block bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-bold hover:opacity-90 transition-all active:scale-95 shadow-sm">
-            Get Started
-          </button>
+          {!user && (
+            <button className="hidden md:block bg-primary text-primary-foreground px-6 py-2.5 rounded-lg font-bold hover:opacity-90 transition-all active:scale-95 shadow-sm">
+              Get Started
+            </button>
+          )}
 
           {/* mobile menu icon */}
           <button
@@ -45,7 +49,16 @@ const Navbar = () => {
           >
             {isMenuOpen ? <IoClose /> : <FcMenu />}
           </button>
-          {user && <FcPhotoReel size={32}></FcPhotoReel>}
+          {user ? (
+            <button
+              onClick={() => logout()}
+              className="bg-danger text-white px-4 py-2 rounded-md hover:bg-opacity-90"
+            >
+              Logout
+            </button>
+          ) : (
+            <a href="/login">Login</a>
+          )}
         </div>
       </div>
 
