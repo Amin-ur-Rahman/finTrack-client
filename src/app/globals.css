@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Core Palette */
+  --color-background: #f8fafc; /* Soft Slate */
+  --color-foreground: #0f172a; /* Deep Navy */
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+
+  /* Brand Actions */
+  --color-primary: #3b82f6; /* Electric Blue for UI Actions */
+  --color-primary-foreground: #ffffff;
+
+  /* Financial States (Critical for FinTrack) */
+  --color-success: #10b981; /* Emerald for Income/Goals */
+  --color-danger: #f43f5e; /* Rose for Expenses/Warnings */
+
+  /* UI Elements */
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-border: #e2e8f0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root.dark {
+  --color-background: #0f172a; /* Dark Navy Background */
+  --color-foreground: #f8fafc;
+  --color-card: #1e293b; /* Lighter Navy for Cards */
+  --color-card-foreground: #f1f5f9;
+
+  --color-primary: #60a5fa;
+  --color-primary-foreground: #0f172a;
+
+  --color-muted: #334155;
+  --color-muted-foreground: #94a3b8;
+  --color-border: #334155;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-card: var(--color-card);
+  --color-card-foreground: var(--color-card-foreground);
+  --color-primary: var(--color-primary);
+  --color-primary-foreground: var(--color-primary-foreground);
+  --color-success: var(--color-success);
+  --color-danger: var(--color-danger);
+  --color-muted: var(--color-muted);
+  --color-muted-foreground: var(--color-muted-foreground);
+  --color-border: var(--color-border);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground transition-colors duration-500 ease-in-out;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
