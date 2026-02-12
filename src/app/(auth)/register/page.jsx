@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "motion/react";
 import {
@@ -14,9 +14,19 @@ import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import axiosPublic from "@/api/axiosPublic";
 import Swal from "sweetalert2";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const { isLoading, user } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.replace("/dashboard");
+    }
+  }, [user, isLoading, router]);
 
   // Cloudinary credentials from env
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD;

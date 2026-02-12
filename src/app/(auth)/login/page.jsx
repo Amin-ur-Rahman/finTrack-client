@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -7,11 +7,20 @@ import Link from "next/link";
 import axiosPublic from "@/api/axiosPublic";
 import Swal from "sweetalert2";
 import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa6";
+import { useUser } from "@/hooks/useUser";
+import Skeleton from "@/components/loading/skeleton";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { isLoading, user } = useUser();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.replace("/dashboard");
+    }
+  }, [user, isLoading, router]);
 
   const {
     register,
@@ -35,7 +44,7 @@ const LoginPage = () => {
         background: "#1a1a1a",
         color: "#fff",
       });
-      router.push("/dashboard");
+      router.push("/");
     },
     onError: (err) => {
       Swal.fire({
@@ -50,9 +59,9 @@ const LoginPage = () => {
 
   const onSubmit = (data) => mutate(data);
 
-  return (
+  return isLoading ? (
     <div className="flex justify-center items-center py-20 min-h-[80vh]">
-      <div className="w-full max-w-[400px] bg-card border border-border p-8 rounded-xl shadow-lg">
+      <div className="w-[95dvw] lg:w-[450px] bg-card border border-border p-8 rounded-xl shadow-lg">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold mb-2">Login</h1>
           <p className="text-muted-foreground text-sm">
@@ -135,6 +144,8 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <Skeleton></Skeleton>
   );
 };
 
