@@ -1,12 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import Logo from "../Logo";
-import { FcMenu } from "react-icons/fc";
+import { FcMenu, FcPhotoReel } from "react-icons/fc";
 import { IoClose } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
+import { useUser } from "@/hooks/useUser";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, isLoading } = useUser();
+
+  console.log(user);
 
   return (
     <nav className="w-full border-b border-border bg-background sticky top-0 z-50">
@@ -41,6 +45,7 @@ const Navbar = () => {
           >
             {isMenuOpen ? <IoClose /> : <FcMenu />}
           </button>
+          {user && <FcPhotoReel size={32}></FcPhotoReel>}
         </div>
       </div>
 

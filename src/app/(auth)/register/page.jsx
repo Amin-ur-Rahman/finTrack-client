@@ -50,6 +50,7 @@ const RegisterPage = () => {
         ...data,
         imageUrl,
       };
+      console.log(submission);
 
       const res = await axiosPublic.post("/api/auth/register", submission);
       return res.data;
@@ -72,6 +73,7 @@ const RegisterPage = () => {
         icon: "error",
         confirmButtonColor: "#f43f5e",
       });
+      // console.log(err.response);
     },
   });
 
