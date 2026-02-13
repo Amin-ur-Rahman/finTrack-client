@@ -1,3 +1,4 @@
+import DashboardNavbar from "@/components/dashboard/dashboardNavbar";
 import Navbar from "@/components/home/navbar";
 import React from "react";
 
@@ -5,7 +6,7 @@ const dashboardLayout = ({ children }) => {
   return (
     <div>
       <header>
-        <Navbar></Navbar>
+        <DashboardNavbar></DashboardNavbar>
       </header>
       <main>{children}</main>
     </div>
