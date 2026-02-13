@@ -33,6 +33,7 @@ const ProfilePage = () => {
                 src={user?.photoUrl || "/profile-generic.jpeg"}
                 alt="Profile"
                 fill
+                loading="eager"
                 className="object-cover"
                 sizes="128px"
               />
