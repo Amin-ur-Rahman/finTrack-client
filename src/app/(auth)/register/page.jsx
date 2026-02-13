@@ -74,6 +74,7 @@ const RegisterPage = () => {
         confirmButtonColor: "#10b981",
       });
       reset();
+      router.push("/");
     },
     onError: (err) => {
       Swal.fire({
