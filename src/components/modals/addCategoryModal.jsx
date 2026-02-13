@@ -6,7 +6,7 @@ import { IoClose } from "react-icons/io5";
 import { FaCheckCircle } from "react-icons/fa";
 
 import Swal from "sweetalert2";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosPublic from "@/api/axiosPublic";
 
 const AddCategoryModal = ({ onClose, setIsModalOpen }) => {
@@ -18,7 +18,7 @@ const AddCategoryModal = ({ onClose, setIsModalOpen }) => {
     reset,
     control,
 
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       type: "expense",
@@ -30,31 +30,39 @@ const AddCategoryModal = ({ onClose, setIsModalOpen }) => {
     name: "type",
   });
 
-  // Watch the type field to show visual feedback
-  //   const selectedType = watch("type");
-
-  const onSubmit = async (data) => {
-    try {
-      const res = await axiosPublic.post("/categories", data);
-
-      if (res.data.insertedId) {
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (newCategory) => {
+      const res = await axiosPublic.post("/category", newCategory);
+      return res.data;
+    },
+    onSuccess: (data) => {
+      if (data.insertedId || data.acknowledged) {
         queryClient.invalidateQueries(["categories"]);
+
         Swal.fire({
           title: "Success!",
-          text: "New category added to the system.",
+          text: "New category added.",
           icon: "success",
           confirmButtonColor: "#10b981",
         });
+
         reset();
-        onClose();
+        setIsModalOpen(false);
       }
-    } catch (error) {
+    },
+    onError: (error) => {
       Swal.fire({
         title: "Error",
-        text: error.response?.data?.message || "Failed to add category",
+        text: error.response?.data?.message || "Failed to create category",
         icon: "error",
       });
-    }
+    },
+  });
+
+  //   const selectedType = watch("type");
+
+  const onSubmit = async (data) => {
+    mutate(data);
   };
 
   return (
@@ -177,10 +185,10 @@ const AddCategoryModal = ({ onClose, setIsModalOpen }) => {
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isPending}
             className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-semibold hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-lg active:scale-[0.98]"
           >
-            {isSubmitting ? (
+            {isPending ? (
               <span className="flex items-center justify-center gap-2">
                 <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin"></div>
                 Creating...
