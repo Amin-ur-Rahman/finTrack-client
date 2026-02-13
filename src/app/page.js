@@ -1,15 +1,24 @@
+"use client";
 import Navbar from "@/components/home/navbar";
 import Logo from "@/components/Logo";
-import React from "react";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
-const page = () => {
+const Page = () => {
+  const { user, isLoading } = useUser();
+  const router = useRouter();
+  useEffect(() => {
+    if (!isLoading && user) {
+      router.replace(user.role === "admin" ? "/admin/dashboard" : "/dashboard");
+    }
+  }, [user, isLoading, router]);
   return (
     <div>
-      <Navbar></Navbar>
-      welcome to fintrack
+      <Navbar></Navbar>;{" "}
     </div>
   );
 };
 
-export default page;
+export default Page;
 

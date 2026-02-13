@@ -12,14 +12,17 @@ import {
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "motion/react";
 import Logo from "../Logo";
-import { useLogout } from "@/hooks/useLogout";
+
 import { useUser } from "@/hooks/useUser";
+import { useLogout } from "@/hooks/useLogout";
+import { useRouter } from "next/navigation";
 
 const DashboardNavbar = ({ onMenuClick }) => {
-  const { logout } = useLogout();
+  const { mutate: logout } = useLogout();
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const router = useRouter();
 
   const dropdownRef = useRef(null);
 
@@ -56,7 +59,7 @@ const DashboardNavbar = ({ onMenuClick }) => {
           {/* menu bar */}
           <button
             onClick={onMenuClick}
-            className="p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
+            className="p-2 lg:hidden text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
             aria-label="Toggle sidebar"
           >
             <FaBars size={20} />
@@ -131,6 +134,7 @@ const DashboardNavbar = ({ onMenuClick }) => {
                   <button
                     onClick={() => {
                       logout();
+                      router.push("/login");
                       setIsOpen(false);
                     }}
                     className="w-full flex items-center gap-2 px-4 py-2 text-sm text-danger hover:bg-danger/10 transition-colors text-left cursor-pointer"

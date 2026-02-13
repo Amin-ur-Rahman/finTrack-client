@@ -16,9 +16,15 @@ const LoginPage = () => {
   const queryClient = useQueryClient();
   const { isLoading, user } = useUser();
 
+  // useEffect(() => {
+  //   if (!isLoading && user) {
+  //     router.replace("/dashboard");  //this hook was always replacing the condition route path into "/dashboard"
+  //   }
+  // }, [user, isLoading, router]);
+
   useEffect(() => {
     if (!isLoading && user) {
-      router.replace("/dashboard");
+      router.replace(user.role === "admin" ? "/admin/dashboard" : "/dashboard");
     }
   }, [user, isLoading, router]);
 
@@ -33,7 +39,7 @@ const LoginPage = () => {
       const res = await axiosPublic.post("/api/auth/login", credentials);
       return res.data;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       queryClient.setQueryData(["user"], data.user);
       Swal.fire({
         title: `Welcome back, ${data.user.username}!`,
@@ -44,7 +50,11 @@ const LoginPage = () => {
         background: "#1a1a1a",
         color: "#fff",
       });
-      router.push("/");
+      console.log(data.user);
+
+      router.push(
+        `${data?.user?.role === "admin" ? "/admin/dashboard" : "/dashboard"}`, //I was sending only eamila and username from backend, it was failing because there was no role property
+      );
     },
     onError: (err) => {
       Swal.fire({

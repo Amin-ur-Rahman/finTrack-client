@@ -4,9 +4,10 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { FaUser, FaEnvelope, FaCoins, FaCalendarAlt } from "react-icons/fa";
 import { MdOutlineModeEdit } from "react-icons/md";
+
+import { useUser } from "@/hooks/useUser";
 import Skeleton from "@/components/loading/skeleton";
 import EditProfileModal from "@/components/modals/editProfileModal";
-import { useUser } from "@/hooks/useUser";
 
 const ProfilePage = () => {
   const { user, isLoading } = useUser();
