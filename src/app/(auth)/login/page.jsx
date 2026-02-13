@@ -59,7 +59,7 @@ const LoginPage = () => {
 
   const onSubmit = (data) => mutate(data);
 
-  return isLoading ? (
+  return !isLoading && !user ? (
     <div className="flex justify-center items-center py-20 min-h-[80vh]">
       <div className="w-[95dvw] lg:w-[450px] bg-card border border-border p-8 rounded-xl shadow-lg">
         <div className="text-center mb-8">
@@ -135,7 +135,7 @@ const LoginPage = () => {
           <p className="text-sm text-muted-foreground">
             Don't have an account?{" "}
             <Link
-              href="/registration"
+              href="/register"
               className="text-primary font-bold hover:underline underline-offset-4"
             >
               Register Now

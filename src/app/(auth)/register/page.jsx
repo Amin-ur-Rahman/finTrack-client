@@ -16,6 +16,7 @@ import axiosPublic from "@/api/axiosPublic";
 import Swal from "sweetalert2";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
+import Skeleton from "@/components/loading/skeleton";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -91,7 +92,7 @@ const RegisterPage = () => {
     mutate(data);
   };
 
-  return (
+  return !isLoading && !user ? (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -238,6 +239,8 @@ const RegisterPage = () => {
         </footer>
       </div>
     </motion.div>
+  ) : (
+    <Skeleton></Skeleton>
   );
 };
 
