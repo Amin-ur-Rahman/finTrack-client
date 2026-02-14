@@ -53,7 +53,7 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
     // },
     {
       name: "Settings",
-      path: "/admin/settings",
+      path: "/profile",
       icon: <FaCog />,
     },
   ];

@@ -53,7 +53,7 @@ const UserSidebar = ({ isOpen, setIsOpen }) => {
     // },
     {
       name: "Profile",
-      path: "/dashboard/profile",
+      path: "/profile",
       icon: <FaCog />,
     },
   ];

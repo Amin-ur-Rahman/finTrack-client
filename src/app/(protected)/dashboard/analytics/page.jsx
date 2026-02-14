@@ -121,11 +121,19 @@ export default function AnalyticsPage() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#000",
-                      border: "1px solid #333",
+                      backgroundColor: "rgba(0, 0, 0, 0.9)",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
                       borderRadius: "8px",
+                      color: "#ffffff",
                     }}
-                    itemStyle={{ fontSize: "12px", fontWeight: "bold" }}
+                    itemStyle={{
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      color: "#ffffff",
+                    }}
+                    labelStyle={{
+                      color: "#ffffff",
+                    }}
                   />
                   <Legend
                     iconType="circle"
