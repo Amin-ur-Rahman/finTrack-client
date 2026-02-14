@@ -12,9 +12,12 @@ import {
   FaBell,
 } from "react-icons/fa";
 import { BsLayoutTextSidebar } from "react-icons/bs";
+import { useState } from "react";
+import AddRecordModal from "@/components/userDashboard/addRecordModal";
 
 const UserSidebar = ({ isOpen, setIsOpen }) => {
   const pathname = usePathname();
+  const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
 
   // User Menu Items
   const menuItems = [
@@ -84,7 +87,7 @@ const UserSidebar = ({ isOpen, setIsOpen }) => {
         `}
       >
         <div className="flex flex-col h-full p-4">
-          {/* Close button (mobile/tablet only) */}
+          {/* Close button mobile/ tablet  */}
           <button
             onClick={() => setIsOpen(false)}
             className="lg:hidden self-end mb-4 p-2 text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
@@ -100,14 +103,13 @@ const UserSidebar = ({ isOpen, setIsOpen }) => {
             </span>
           </div>
 
-          {/* Quick Action Button */}
-          <Link
-            href="/dashboard/add-transaction"
-            onClick={handleLinkClick}
+          {/* quick action button */}
+          <button
+            onClick={() => setIsRecordModalOpen(true)}
             className="flex items-center justify-center gap-2 mb-6 w-full py-3 bg-primary text-primary-foreground rounded-md font-bold text-sm uppercase tracking-wider hover:opacity-90 transition-all shadow-sm"
           >
             <FaPlusCircle /> Add Record
-          </Link>
+          </button>
 
           {/* Navigation Menu */}
           <nav className="space-y-1 flex-1 overflow-y-auto">
@@ -146,6 +148,11 @@ const UserSidebar = ({ isOpen, setIsOpen }) => {
           </div>
         </div>
       </aside>
+      {isRecordModalOpen && (
+        <AddRecordModal
+          setIsRecordModalOpen={setIsRecordModalOpen}
+        ></AddRecordModal>
+      )}
     </>
   );
 };

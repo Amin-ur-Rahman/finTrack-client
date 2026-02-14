@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "@/components/home/navbar";
-import Logo from "@/components/Logo";
+
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";

@@ -5,10 +5,10 @@ import { motion } from "motion/react";
 import { IoClose } from "react-icons/io5";
 
 import Swal from "sweetalert2";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosPublic from "@/api/axiosPublic";
 
-const AddRecordModal = ({ onClose }) => {
+const AddRecordModal = ({ setIsRecordModalOpen }) => {
   const queryClient = useQueryClient();
   const {
     register,
@@ -17,27 +17,37 @@ const AddRecordModal = ({ onClose }) => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/category");
+      return res.data;
+    },
+  });
+
+  console.log(categories);
+
   const onSubmit = async (data) => {
     try {
-      // Data transformation: ensure amount is a number
       const payload = {
         ...data,
         amount: parseFloat(data.amount),
         date: new Date(data.date),
       };
+      // console.log(payload);
 
       const res = await axiosPublic.post("/transactions", payload);
 
       if (res.data.insertedId) {
-        queryClient.invalidateQueries(["transactions"]); // Refresh dashboard stats
+        queryClient.invalidateQueries(["transactions"]);
         Swal.fire({
           title: "Saved!",
           text: "Record added successfully",
           icon: "success",
-          confirmButtonColor: "#10b981", // Matching your green
+          confirmButtonColor: "#10b981",
         });
         reset();
-        onClose();
+        // onClose();
       }
     } catch (error) {
       Swal.fire("Error", "Failed to save record", "error");
@@ -54,7 +64,7 @@ const AddRecordModal = ({ onClose }) => {
         <div className="p-4 border-b border-border flex justify-between items-center bg-muted/20">
           <h2 className="font-bold text-lg">Add New Record</h2>
           <button
-            onClick={onClose}
+            onClick={() => setIsRecordModalOpen(false)}
             className="cursor-pointer hover:text-red-500"
           >
             <IoClose size={20} />
@@ -102,7 +112,7 @@ const AddRecordModal = ({ onClose }) => {
             </div>
           </div>
 
-          {/* Category - This should eventually be fetched from your new Categories collection */}
+          {/*  category */}
           <div>
             <label className="text-xs font-bold uppercase text-muted-foreground">
               Category
@@ -111,10 +121,11 @@ const AddRecordModal = ({ onClose }) => {
               {...register("category")}
               className="w-full p-2 bg-background border border-border rounded-md outline-hidden"
             >
-              <option value="Food">Food</option>
-              <option value="Rent">Rent</option>
-              <option value="Salary">Salary</option>
-              <option value="Entertainment">Entertainment</option>
+              {categories?.map((cat) => (
+                <option key={cat?._id} value={cat?.name}>
+                  {cat?.name}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -128,6 +139,16 @@ const AddRecordModal = ({ onClose }) => {
               {...register("date", { required: true })}
               defaultValue={new Date().toISOString().split("T")[0]}
               className="w-full p-2 bg-background border border-border rounded-md outline-hidden"
+            />
+          </div>
+          <div>
+            <label className="text-xs font-bold uppercase text-muted-foreground">
+              Note (optional)
+            </label>
+            <textarea
+              {...register("note")} // Changed from "title" to "note"
+              className="w-full p-2 bg-background border border-border rounded-md outline-hidden focus:border-primary min-h-20 resize-none"
+              placeholder="Add some details..."
             />
           </div>
 

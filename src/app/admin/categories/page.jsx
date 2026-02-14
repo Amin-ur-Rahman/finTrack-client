@@ -61,12 +61,12 @@ const CategoriesPage = () => {
             Manage global expense and income types.
           </p>
         </div>
-        <button
+        {/* <button
           onClick={() => setIsModalOpen(true)}
           className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-md font-bold  text-xs tracking-widest hover:opacity-90 transition-all shadow-lg active:scale-95"
         >
           <FaPlus /> Add Category
-        </button>
+        </button> */}
       </div>
 
       {/* Table Section */}
