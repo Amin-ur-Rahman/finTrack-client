@@ -21,6 +21,7 @@ export default function BudgetPage() {
   const [editingBudget, setEditingBudget] = useState(null);
   const { user } = useUser();
 
+  // Fetch categories
   const { data: categories = [], isLoading: isCatLoading } = useQuery({
     enabled: !!user?.email,
     queryKey: ["categories"],
@@ -30,6 +31,7 @@ export default function BudgetPage() {
     },
   });
 
+  // Fetch budgets with spending data
   const { data: budgets = [], isLoading: isBudgetsLoading } = useQuery({
     enabled: !!user?.email,
     queryKey: ["myBudgets", user?.email],
@@ -39,6 +41,7 @@ export default function BudgetPage() {
     },
   });
 
+  // Save budget mutation
   const saveMutation = useMutation({
     mutationFn: (budgetData) => {
       if (editingBudget) {
@@ -63,6 +66,7 @@ export default function BudgetPage() {
     },
   });
 
+  // Delete budget mutation
   const deleteMutation = useMutation({
     mutationFn: (id) => axiosPublic.delete(`/budgets/${id}`),
     onSuccess: () => {
@@ -82,19 +86,31 @@ export default function BudgetPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const categoryId = formData.get("category");
     const limit = formData.get("limit");
 
-    if (!categoryId) return toast.error("Please select a category");
+    // Validation
     if (!limit || parseFloat(limit) <= 0) {
       return toast.error("Please enter a valid amount");
     }
 
-    saveMutation.mutate({
-      category: categoryId,
-      limit: parseFloat(limit),
-      userEmail: user.email,
-    });
+    // For edit: don't need category (already set)
+    // For create: need category
+    if (editingBudget) {
+      // Edit mode - only send limit
+      saveMutation.mutate({
+        limit: parseFloat(limit),
+      });
+    } else {
+      // Create mode - send category and limit
+      const category = formData.get("category");
+      if (!category) return toast.error("Please select a category");
+
+      saveMutation.mutate({
+        category,
+        limit: parseFloat(limit),
+        userEmail: user.email,
+      });
+    }
   };
 
   const handleEdit = (budget) => {
@@ -403,7 +419,7 @@ export default function BudgetPage() {
         </div>
       )}
 
-      {/* edit modal */}
+      {/* Create/Edit Budget Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-card border border-border w-full max-w-md rounded-lg shadow-2xl animate-in fade-in zoom-in duration-200">
@@ -419,25 +435,31 @@ export default function BudgetPage() {
 
             {/* Modal Form */}
             <form onSubmit={handleSubmit} className="p-5 space-y-5">
+              {/* Category Field */}
               <div>
                 <label className="text-xs font-semibold text-muted-foreground mb-2 block">
                   Category
                 </label>
-                <select
-                  name="category"
-                  defaultValue={editingBudget?.category || ""}
-                  disabled={!!editingBudget}
-                  className="w-full bg-background border border-border px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  <option value="" disabled>
-                    Choose a category
-                  </option>
-                  {categories.map((cat) => (
-                    <option key={cat._id} value={cat.name}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
+                {editingBudget ? (
+                  // Show category as read-only text when editing
+                  <div className="w-full bg-muted border border-border px-3 py-2.5 rounded-lg text-sm text-foreground">
+                    {editingBudget.category}
+                  </div>
+                ) : (
+                  // Show dropdown when creating
+                  <select
+                    name="category"
+                    required
+                    className="w-full bg-background border border-border px-3 py-2.5 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  >
+                    <option value="">Choose a category</option>
+                    {categories.map((cat) => (
+                      <option key={cat._id} value={cat.name}>
+                        {cat.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
                 {editingBudget && (
                   <p className="text-xs text-muted-foreground mt-1">
                     Category cannot be changed
@@ -445,6 +467,7 @@ export default function BudgetPage() {
                 )}
               </div>
 
+              {/* Limit Field */}
               <div>
                 <label className="text-xs font-semibold text-muted-foreground mb-2 block">
                   Monthly Limit (৳)
@@ -464,6 +487,7 @@ export default function BudgetPage() {
                 </p>
               </div>
 
+              {/* Action Buttons */}
               <div className="flex gap-3 pt-4">
                 <button
                   type="submit"

@@ -46,11 +46,11 @@ const UserSidebar = ({ isOpen, setIsOpen }) => {
       path: "/dashboard/analytics",
       icon: <FaChartLine />,
     },
-    {
-      name: "Bill Reminders",
-      path: "/dashboard/bills",
-      icon: <FaBell />,
-    },
+    // {
+    //   name: "Bill Reminders",
+    //   path: "/dashboard/bills",
+    //   icon: <FaBell />,
+    // },
     {
       name: "Profile",
       path: "/dashboard/profile",

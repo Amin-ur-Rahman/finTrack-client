@@ -36,21 +36,21 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
       path: "/admin/categories",
       icon: <FaTags />,
     },
-    {
-      name: "Financial Reports",
-      path: "/admin/reports",
-      icon: <FaFileAlt />,
-    },
-    {
-      name: "Financial Tips",
-      path: "/admin/tips",
-      icon: <FaLightbulb />,
-    },
-    {
-      name: "Review Moderation",
-      path: "/admin/reviews",
-      icon: <FaComment />,
-    },
+    // {
+    //   name: "Financial Reports",
+    //   path: "/admin/reports",
+    //   icon: <FaFileAlt />,
+    // },
+    // {
+    //   name: "Financial Tips",
+    //   path: "/admin/tips",
+    //   icon: <FaLightbulb />,
+    // },
+    // {
+    //   name: "Review Moderation",
+    //   path: "/admin/reviews",
+    //   icon: <FaComment />,
+    // },
     {
       name: "Settings",
       path: "/admin/settings",
