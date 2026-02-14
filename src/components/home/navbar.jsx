@@ -10,6 +10,7 @@ import { useLogout } from "@/hooks/useLogout";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Skeleton from "../../components/loading/skeleton";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,14 +39,19 @@ const Navbar = () => {
         <div className="flex items-center gap-12">
           <Logo height={60} width={200} />
           <div className="hidden md:flex gap-8 items-center font-semibold text-muted-foreground">
-            {["Home", "About", "Blog", "Contact"].map((item) => (
-              <a
-                key={item}
-                href="#"
+            {[
+              { name: "Home", href: "/" },
+              { name: "About", href: "/about" },
+              { name: "Blog", href: "/blog" },
+              { name: "Contact", href: "/contact" },
+            ].map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
                 className="hover:text-foreground transition-all duration-300"
               >
-                {item}
-              </a>
+                {item.name}
+              </Link>
             ))}
           </div>
         </div>

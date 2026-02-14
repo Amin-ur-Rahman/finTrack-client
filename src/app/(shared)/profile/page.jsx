@@ -8,10 +8,14 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { useUser } from "@/hooks/useUser";
 import Skeleton from "@/components/loading/skeleton";
 import EditProfileModal from "@/components/modals/editProfileModal";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Logo from "@/components/Logo";
 
 const ProfilePage = () => {
   const { user, isLoading } = useUser();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
 
   if (isLoading)
     return (
@@ -20,10 +24,15 @@ const ProfilePage = () => {
       </div>
     );
 
+  if (!user) router.push("/login");
+
   // console.log(user);
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 py-[10dvh]">
+      <Link href={"/"}>
+        <Logo></Logo>
+      </Link>
       {/* Profile Header Card */}
       <div className="bg-card border border-border rounded-md overflow-hidden shadow-sm">
         <div className="h-32 bg-linear-to-r from-primary/20 to-primary/5" />
@@ -41,14 +50,14 @@ const ProfilePage = () => {
             </div>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-md font-bold hover:opacity-90 transition-all active:scale-95"
+              className="flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-md font-semibold hover:opacity-90 transition-all active:scale-95"
             >
               <MdOutlineModeEdit /> Edit Profile
             </button>
           </div>
 
           <div className="space-y-1">
-            <h1 className="text-3xl font-black italic">{user?.username}</h1>
+            <h1 className="text-3xl font-bold">{user?.username}</h1>
             <p className="text-muted-foreground">{user?.email}</p>
           </div>
 
@@ -84,9 +93,7 @@ const InfoTile = ({ icon, label, value }) => (
   <div className="flex items-center gap-4 p-4 rounded-md bg-muted/30 border border-border/50">
     <div className="text-primary text-lg">{icon}</div>
     <div>
-      <p className="text-xs text-muted-foreground uppercase tracking-wider font-bold">
-        {label}
-      </p>
+      <p className="text-xs text-muted-foreground font-medium">{label}</p>
       <p className="font-semibold">{value}</p>
     </div>
   </div>

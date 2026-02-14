@@ -1,5 +1,10 @@
 "use client";
+import CategoryCards from "@/components/home/categoryCards";
+import Footer from "@/components/home/footer";
+import HeroSection from "@/components/home/Hero";
+
 import Navbar from "@/components/home/navbar";
+import ServicesSection from "@/components/home/services";
 
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
@@ -15,7 +20,17 @@ const Page = () => {
   }, [user, isLoading, router]);
   return (
     <div>
-      <Navbar></Navbar>;{" "}
+      <header>
+        <Navbar></Navbar>;
+      </header>
+      <main>
+        <HeroSection></HeroSection>
+        <ServicesSection></ServicesSection>
+        <CategoryCards></CategoryCards>
+        <footer>
+          <Footer></Footer>
+        </footer>
+      </main>
     </div>
   );
 };

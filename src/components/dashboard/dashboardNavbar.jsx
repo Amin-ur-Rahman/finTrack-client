@@ -124,7 +124,7 @@ const DashboardNavbar = ({ onMenuClick }) => {
                   </div>
 
                   <Link
-                    href="/dashboard/profile"
+                    href="/profile"
                     className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-muted transition-colors"
                     onClick={() => setIsOpen(false)}
                   >

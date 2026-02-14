@@ -1,10 +1,31 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DashboardNavbar from "@/components/dashboard/dashboardNavbar";
 import UserSidebar from "@/components/dashboard/user/userSidebar";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
 
 const UserDashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, isLoading: loading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user) {
+        router.push("/login");
+      } else if (user.role === "admin") {
+        router.push("/admin/dashboard");
+      }
+    }
+  }, [user, loading, router]);
+
+  if (loading)
+    return (
+      <div className="h-screen flex items-center justify-center font-black italic uppercase">
+        Verifying Access...
+      </div>
+    );
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
