@@ -33,6 +33,8 @@ export default function DashboardPage() {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosPublic.get(`/transactions/my?limit=5`);
+      console.log("recent transaction", res.data);
+
       return res.data;
     },
   });

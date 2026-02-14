@@ -42,7 +42,7 @@ const UserSidebar = ({ isOpen, setIsOpen }) => {
       icon: <FaChartPie />,
     },
     {
-      name: "Analytics",
+      name: "Analytics & Insights",
       path: "/dashboard/analytics",
       icon: <FaChartLine />,
     },
