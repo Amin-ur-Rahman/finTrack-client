@@ -36,7 +36,7 @@ const LoginPage = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (credentials) => {
-      const res = await axiosPublic.post("/auth/login", credentials);
+      const res = await axiosPublic.post("/api/auth/login", credentials);
       return res.data;
     },
     onSuccess: async (data) => {

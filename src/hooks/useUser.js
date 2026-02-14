@@ -10,7 +10,7 @@ export const useUser = () => {
     queryKey: ["user"],
     queryFn: async () => {
       try {
-        const res = await axiosPublic.get("/auth/me");
+        const res = await axiosPublic.get("/api/auth/me");
         return res.data;
       } catch (err) {
         return null;
