@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FaClock, FaUser, FaArrowRight } from "react-icons/fa";
-import Footer from "@/components/landing/Footer";
+import Footer from "@/components/home/footer";
 
 const BlogPage = () => {
   const blogPosts = [
