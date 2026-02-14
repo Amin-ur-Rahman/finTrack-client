@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 
 const axiosPublic = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: "https://fintrack-server-1.onrender.com",
   withCredentials: true,
 });
 
