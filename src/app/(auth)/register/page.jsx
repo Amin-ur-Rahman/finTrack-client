@@ -63,7 +63,7 @@ const RegisterPage = () => {
       };
       console.log(submission);
 
-      const res = await axiosPublic.post("/api/auth/register", submission);
+      const res = await axiosPublic.post("/auth/register", submission);
       return res.data;
     },
     onSuccess: (res) => {
